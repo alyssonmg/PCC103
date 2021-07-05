@@ -1,1 +1,44 @@
-#
+#include <iostream>
+#include <vector>
+#include <math.h>
+using namespace std;
+
+double average(const std::vector<double>& dados)
+{
+    double num = 0;
+    for(int i = 0; i < dados.size(); i++)
+    {
+        num = num + dados[i];
+    }
+    return num/dados.size();
+}
+
+
+double variance(const std::vector<double>& dados)
+{
+    double media = average(dados);
+    int qtde = dados.size();
+    double variancia = 0.0;
+
+    for (int i = 0; i < qtde; i++)
+    {
+        variancia = variancia + pow((dados[i] - media),2);
+    }
+    return variancia/qtde;
+}
+
+double deviation(const std::vector<double>& dados)
+{
+    return sqrt(variance(dados));
+}
+
+int main()
+{
+    std::vector <double> numeros{12,34,56,78,9};
+
+    cout << "Media: " << average(numeros) << endl;
+    cout << "Variancia: " << variance(numeros) << endl;
+    cout << "Desvio padrao: " << deviation(numeros) << endl;
+
+    return 0;
+}
