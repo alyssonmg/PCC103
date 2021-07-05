@@ -1,0 +1,78 @@
+#include <iostream>
+#include<vector>
+
+template <typename T>
+void printVector(std::vector<T>& v) //&referencia, não copia o vector
+{
+    for (auto i = v.begin(); i != v.end(); ++i)
+    {
+        std::cout << *i << ' ';
+    }
+    std::cout << std::endl;
+}
+int main()
+{
+    system("cls");
+    int n, min, i, j, aux, soma;
+    float media, mediana;
+    std::vector<int> numeros = {12,34,9,78,9};
+    n = 5;
+    std::cout << "Elementos do vetor: ";
+    printVector(numeros);
+
+for (i = 0;i < n-1; i++)
+    {
+    min = i;
+    for (j = i+1; j <= n; j++)
+        {
+        if(numeros[j] < numeros[min])
+            {
+            min = j;
+            }
+        }
+    aux = numeros[min];
+    numeros[min] = numeros [i];
+    numeros[i] = aux;
+    }
+    //std::cout << "Elementos ordenados: ";
+    //printVector(numeros);
+    soma = 0;
+    for (i = 0; i < n; i++)
+    {
+        soma = soma + numeros[i];
+    }
+
+    media = soma / n;
+    mediana = (n / 2);
+    
+    //std::cout << "Soma: " << soma << std::endl;
+    std::cout << "Media: " << media << std::endl;
+    std::cout << "Mediana: " << numeros[mediana] << std::endl;
+
+    int moda, conta, contador[n];
+    conta = 0;
+    for (i = 0;i < n; i++)
+    {
+        for(j = i + 1; j < n; j++)
+        {        	
+	        if(numeros[i] == numeros[j])
+            {
+			    contador[i]++;
+			    if(contador[i] > conta)
+                {
+				    conta = contador[i];
+				    moda = numeros[i];
+			    }
+		    }
+
+        }
+        contador[i]=0;
+    }
+    if(conta == 0){
+    	std::cout << "Nao existe Moda!" << std::endl;
+	}
+	else{
+		std::cout << "Moda: " << moda << std::endl;
+	}
+
+}
