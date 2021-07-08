@@ -1,0 +1,99 @@
+#include <iostream>
+#include <vector>
+#include <math.h>
+
+double average(const std::vector<double>& data)
+{
+    double var = 0;
+    for(int i = 0; i < data.size(); i++)
+    {
+        var = var + data[i];
+    }
+    return var/data.size();
+}
+
+double variance(const std::vector<double>& data)
+{
+    double media = average(data);
+    int qtde = data.size();
+    double variancia = 0.0;
+
+    for (int i = 0; i < qtde; i++)
+    {
+        variancia = variancia + pow((data[i] - media),2);
+    }
+
+    return variancia/qtde;
+}
+
+double std_dev(const std::vector<double>& data)
+{
+    return sqrt(variance(data));
+}
+
+double normal_distribution_cdf(double var1, double var2, double average, double std_dev)
+{
+    double var3 = (var1 - average) / (std_dev * sqrt(2));
+    double ic1 = 0.5 * (1 + erf(var3));
+
+    double var4 = (var2 - average) / (std_dev*sqrt(2));
+    double ic2 = 0.5 * (1+ erf(var4));
+
+    double result = ic1/ic2;
+    return result;
+}
+
+double normal_distribution_cdf(double var1, double var2)
+{
+    double average = 0;
+    double std_dev = 1;
+
+    double var3 = (var1 - average) / (std_dev*sqrt(2));
+    double q1 = 0.5 * (1 + erf(var3));
+
+    double var4 = (var2 - average) / (std_dev*sqrt(2));
+    double q2 = 0.5 * (1 + erf(var4));
+
+    double result = q1/q2;
+    return result;
+}
+
+double normal_distribution_cdf(double var1, double average, double std_dev)
+{
+    double var = (var1 - average) / (std_dev*sqrt(2));
+    double result = 0.5 * (1 + erf(var));
+    return result;
+}
+
+double normal_distribution_cdf(double var1)
+{
+    double average = 0;
+    double std_dev = 1;
+    double var2 = (var1 - average) / (std_dev * sqrt(2));
+    double result = 0.5 * (1 + erf(var2));
+    return result;
+}
+
+int main()
+{
+    std::vector <double> numeros{123,456,789,101};
+    double ponto1;
+    double ponto2;
+
+    std::cout << "Digite o valor para o ponto 1: ";
+    std::cin >> ponto1;
+
+    std::cout << "Digite o valor para o ponto 2: ";
+    std::cin >> ponto2;
+
+    double media = average(numeros);
+    double desvioPadrao = std_dev(numeros);
+    std::cout << "Media: " << media << std::endl;
+    std::cout << "Desvio Padrao: " << desvioPadrao << std::endl;
+    std::cout << "O intervalo de confianca para o ponto 1 eh: " << normal_distribution_cdf(ponto1,media,desvioPadrao) << std::endl;
+    std::cout << "O intervalo de confianca para o ponto 1 (sem media e desvio padrao) eh: " << normal_distribution_cdf(ponto1) << std::endl;
+    std::cout << "O intervalo de confianca para os pontos 1 e 2 eh: " << normal_distribution_cdf(ponto1,ponto2,media,desvioPadrao) << std::endl;
+    std::cout << "O intervalo de confianca para o ponto 1 (sem media e desvio padrao) eh: " << normal_distribution_cdf(ponto1,ponto2) << std::endl;
+
+    return 0;
+}
