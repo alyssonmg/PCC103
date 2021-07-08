@@ -1,1 +1,90 @@
-#
+#include <iostream>
+#include <vector>
+#include <math.h>
+
+void ordenarVector(std::vector<double>& data)
+{
+    int aux;
+    int tam = data.size();
+
+    for(int i = 0; i < tam; i++)
+    {
+        for(int j = 0; j < tam - 1; j++)
+        {
+            if (data[j] > data[j + 1])
+            {
+                aux = data[j];
+                data[j] = data[j + 1];
+                data[j + 1] = aux;
+            }
+        }
+    }
+}
+
+double average(const std::vector<double>& data)
+{
+    double var = 0;
+    double tam = data.size();
+    for(int i = 0; i < tam; i++)
+    {
+        var = var + data[i];
+    }
+
+    return var/tam;
+}
+
+double variance(const std::vector<double>& data)
+{
+    double media = average(data);
+    int qtde = data.size();
+    double variancia = 0.0;
+
+    for (int i = 0; i < qtde; i++)
+    {
+        variancia = variancia + pow((data[i] - media),2);
+    }
+
+    return variancia/qtde;
+
+}
+double std_dev(const std::vector<double>& data)
+{
+    return sqrt(variance(data));
+}
+
+double t_distribution_pdf(double x, int var)
+{
+    double pi = 3.14;
+    double var1 = tgamma(var + 1/2)/ (sqrt(var * pi) * tgamma(var / 2));
+    double var2 = pow(1 + (pow(x,2) / var), -(var + 1/2));
+    double result = var1 * var2;
+    return result;
+}
+
+double t_distribution_cdf(double x, int var)
+{
+    double var1 = 0.5 + x * tgamma(var + 1/2);
+    double var2;
+}
+
+int main()
+{
+    std::vector <double> data {123,456,789,101};
+    double ponto1, ponto2, grau;
+
+    std::cout << "Digite o ponto 1: ";
+    std::cin >> ponto1;
+
+    std::cout << "Digite o ponto 2: ";
+    std::cin >> ponto2;
+
+    std::cout << "Digite o grau de liberdade: ";
+    std::cin >> grau;
+
+    std::cout << "Media: " << average(data) << std::endl;
+    std::cout << "Variancia: " << variance(data) << std::endl;
+    std::cout << "Desvio Padrao: " << std_dev(data) << std::endl;
+    std::cout << "O intervalo de confianca: " << t_distribution_pdf(ponto1,grau) << std::endl;
+
+    return 0;
+}
